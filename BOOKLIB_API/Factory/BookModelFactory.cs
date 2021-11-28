@@ -10,6 +10,7 @@ namespace BOOKLIB_API.Factory
           var book = new Book();
             if (model!=null)
             {
+                book.Id = model.Id;
                 book.Title = model.Title;
                 book.Publisher = model.Publisher;
                 book.Author = model.Author;
