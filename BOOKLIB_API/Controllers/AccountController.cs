@@ -7,5 +7,6 @@ namespace BOOKLIB_API.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
+
     }
 }
