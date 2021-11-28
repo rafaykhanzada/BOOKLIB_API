@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BOOKLIB_API", "BOOKLIB_API\BOOKLIB_API.csproj", "{5D05EC7D-744E-4698-A29C-1D566EB4D864}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{E026EC64-6473-44A8-A9A7-D9B632591976}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5D05EC7D-744E-4698-A29C-1D566EB4D864}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D05EC7D-744E-4698-A29C-1D566EB4D864}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D05EC7D-744E-4698-A29C-1D566EB4D864}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D05EC7D-744E-4698-A29C-1D566EB4D864}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E026EC64-6473-44A8-A9A7-D9B632591976}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E026EC64-6473-44A8-A9A7-D9B632591976}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E026EC64-6473-44A8-A9A7-D9B632591976}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E026EC64-6473-44A8-A9A7-D9B632591976}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1EF471C6-2057-4743-BEBB-AA6A4BD76309}
+	EndGlobalSection
+EndGlobal
