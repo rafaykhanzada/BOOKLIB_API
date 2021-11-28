@@ -16,11 +16,13 @@ namespace BOOKLIB_API.DataContext
 
         }
         public DbSet<User> User { get; set; }
+        public DbSet<Book> Book { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.Entity<User>().ToTable($"tbl{nameof(User)}");
+            builder.Entity<Book>().ToTable($"tbl{nameof(Book)}");
             builder.Entity<User>().Property(u => u.CustomerId).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
         }
