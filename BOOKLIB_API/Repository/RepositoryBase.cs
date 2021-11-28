@@ -17,11 +17,13 @@ namespace BOOKLIB_API.Repository
         public void Delete(T model)
         {
             _context.Set<T>().Remove(model);
+            _context.SaveChanges();
         }
 
         public IEnumerable<T> Get(Expression<Func<T, bool>> condition)
         {
             return _context.Set<T>().AsNoTracking().Where(condition);
+
         }
 
         public T GetFirst(Func<T, bool> condition)
@@ -59,28 +61,31 @@ namespace BOOKLIB_API.Repository
         public T Insert(T model)
         {
             var result = _context.Set<T>().Add(model);
+            _context.SaveChanges();
             return result.Entity;
         }
 
         public void InsertAll(IEnumerable<T> model)
         {
             _context.Set<T>().AddRange(model);
+            _context.SaveChanges();
         }
 
         public void UpdateAll(IEnumerable<T> model)
         {
-            if (model.Count() > 0) { _context.Set<T>().UpdateRange(model); }
+            if (model.Count() > 0) { _context.Set<T>().UpdateRange(model); _context.SaveChanges(); }
         }
 
         public T Update(T model)
         {
             var result = _context.Set<T>().Update(model);
+            _context.SaveChanges();
             return result.Entity;
         }
 
         public void DeleteAll(IEnumerable<T> model)
         {
-            if (model.Count() > 0) { _context.Set<T>().RemoveRange(model); }
+            if (model.Count() > 0) { _context.Set<T>().RemoveRange(model); _context.SaveChanges(); }
         }
     }
 }

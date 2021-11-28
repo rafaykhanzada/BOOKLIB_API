@@ -18,9 +18,5 @@
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Factory\" />
-  </ItemGroup>
-
 
 </Project>
