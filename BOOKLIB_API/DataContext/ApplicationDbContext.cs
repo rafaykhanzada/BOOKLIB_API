@@ -21,8 +21,8 @@ namespace BOOKLIB_API.DataContext
         {
             base.OnModelCreating(builder);
             builder.Entity<User>().ToTable($"tbl{nameof(User)}");
-            //builder.Entity<User>().Property(u => u.CustomerId).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Save);
-           
+            builder.Entity<User>().Property(u => u.CustomerId).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+
         }
     }
 }

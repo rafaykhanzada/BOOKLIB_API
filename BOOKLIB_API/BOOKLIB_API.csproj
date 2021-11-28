@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <Folder Include="Factory\" />
-    <Folder Include="Models\" />
   </ItemGroup>
 
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using BOOKLIB_API.Repository;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BOOKLIB_API.Helpers
 {
@@ -6,7 +7,7 @@ namespace BOOKLIB_API.Helpers
     {
         public DependencyRegistration(IServiceCollection services)
         {
-
+            services.AddScoped<IUserRepository, UserRepository>();
         }
     }
 }
