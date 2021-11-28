@@ -4,14 +4,16 @@ using BOOKLIB_API.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BOOKLIB_API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211128210429_return_rec")]
+    partial class return_rec
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -148,13 +150,9 @@ namespace BOOKLIB_API.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("User_ID")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Borrower_ID");
-
-                    b.HasIndex("User_ID");
 
                     b.ToTable("tblReturnRecord");
                 });
@@ -407,23 +405,6 @@ namespace BOOKLIB_API.Migrations
                     b.Navigation("Borrower_User_Id");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.ReturnRecord", b =>
-                {
-                    b.HasOne("DataAccessLayer.Borrower", "ReturnRecord_Borrower_Id")
-                        .WithMany("ReturnRecord_Borrower_Id")
-                        .HasForeignKey("Borrower_ID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataAccessLayer.User", "ReturnRecord_User_Id")
-                        .WithMany("ReturnRecord_User_Id")
-                        .HasForeignKey("User_ID");
-
-                    b.Navigation("ReturnRecord_Borrower_Id");
-
-                    b.Navigation("ReturnRecord_User_Id");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -480,16 +461,9 @@ namespace BOOKLIB_API.Migrations
                     b.Navigation("Borrower_Bk_Id");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Borrower", b =>
-                {
-                    b.Navigation("ReturnRecord_Borrower_Id");
-                });
-
             modelBuilder.Entity("DataAccessLayer.User", b =>
                 {
                     b.Navigation("Borrower_User_Id");
-
-                    b.Navigation("ReturnRecord_User_Id");
                 });
 #pragma warning restore 612, 618
         }

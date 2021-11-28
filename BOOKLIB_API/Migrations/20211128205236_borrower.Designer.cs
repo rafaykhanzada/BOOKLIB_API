@@ -4,14 +4,16 @@ using BOOKLIB_API.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BOOKLIB_API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211128205236_borrower")]
+    partial class borrower
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,46 +119,6 @@ namespace BOOKLIB_API.Migrations
                     b.HasIndex("User_ID");
 
                     b.ToTable("tblBorrower");
-                });
-
-            modelBuilder.Entity("DataAccessLayer.ReturnRecord", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Bk_ID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Borrower_ID")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsAllow")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("User_ID")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Borrower_ID");
-
-                    b.HasIndex("User_ID");
-
-                    b.ToTable("tblReturnRecord");
                 });
 
             modelBuilder.Entity("DataAccessLayer.User", b =>
@@ -407,23 +369,6 @@ namespace BOOKLIB_API.Migrations
                     b.Navigation("Borrower_User_Id");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.ReturnRecord", b =>
-                {
-                    b.HasOne("DataAccessLayer.Borrower", "ReturnRecord_Borrower_Id")
-                        .WithMany("ReturnRecord_Borrower_Id")
-                        .HasForeignKey("Borrower_ID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataAccessLayer.User", "ReturnRecord_User_Id")
-                        .WithMany("ReturnRecord_User_Id")
-                        .HasForeignKey("User_ID");
-
-                    b.Navigation("ReturnRecord_Borrower_Id");
-
-                    b.Navigation("ReturnRecord_User_Id");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -480,16 +425,9 @@ namespace BOOKLIB_API.Migrations
                     b.Navigation("Borrower_Bk_Id");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Borrower", b =>
-                {
-                    b.Navigation("ReturnRecord_Borrower_Id");
-                });
-
             modelBuilder.Entity("DataAccessLayer.User", b =>
                 {
                     b.Navigation("Borrower_User_Id");
-
-                    b.Navigation("ReturnRecord_User_Id");
                 });
 #pragma warning restore 612, 618
         }

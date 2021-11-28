@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,5 +22,9 @@ namespace DataAccessLayer
         public DateTime? DeletedOn { get; set; }
         public string DeletedBy { get; set; }
         public bool IsAllow { get; set; }
+
+        public ICollection<Borrower> Borrower_User_Id { get; set; }
+        public ICollection<ReturnRecord> ReturnRecord_User_Id { get; set; }
+
     }
 }
