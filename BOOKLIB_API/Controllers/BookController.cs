@@ -30,23 +30,12 @@ namespace BOOKLIB_API.Controllers
         public async Task<IActionResult> GetAll()
         {
             var borrower = _borrowerRepository.GetAll();
-            var returnrec = _returnRecordRepository.GetAll();
-            var result = _bookRepository.Get(x => x.IsAllow == true);
-            var booklist =new List<Book>();
-            IList<BookCheckModel> Lst_Borrower=new List<BookCheckModel>();
-            IList<BookCheckModel> Lst_ReturnRec=new List<BookCheckModel>();
-            List<int> ExpectBook;
-            foreach (var item in borrower)
-                Lst_Borrower.Add(new BookCheckModel { Book_Id = item.Bk_ID, Borrower_Id = item.Id,User_ID=item.User_ID });
-            foreach (var item in returnrec)
-                Lst_ReturnRec.Add(new BookCheckModel { Book_Id = item.Bk_ID, Borrower_Id = item.Borrower_ID, User_ID = item.User_ID });
-            ExpectBook = Lst_Borrower.Except(Lst_ReturnRec).Select(x=>x.Book_Id).ToList();
-            ExpectBook = ExpectBook.Distinct().ToList();
-            foreach (var item in result)
-                booklist.Add(result.Where(c => c.Id == item.Id).FirstOrDefault());
-            if (booklist == null)
-                return Ok(new ResponseHelper(0, new object(), new ErrorDef((int)EnumHelper.ErrorEnums.NoRecordFound, "Book Not Found", "Please Again Later")));           
-            return Ok(new ResponseHelper(1, booklist, new ErrorDef()));
+            var returnrec = _returnRecordRepository.GetAll();          
+            var difList = borrower.Where(a => !returnrec.Any(a1 => a1.Borrower_ID == a.Id)).Select(x=>x.Bk_ID).ToList();
+            var books = _bookRepository.Get(x=> !difList.Any(e=>e.Equals(x.Id)));
+            if (books == null)
+                return Ok(new ResponseHelper(0, new object(), new ErrorDef((int)EnumHelper.ErrorEnums.NoRecordFound, "Book Not Found", "Please Again Later")));
+            return Ok(new ResponseHelper(1, books, new ErrorDef()));
         }
         [HttpGet("get/{id}")]
         [Authorize]
@@ -74,7 +63,7 @@ namespace BOOKLIB_API.Controllers
             var book = BookModelFactory.GetBookModel(model1);
             var result = _bookRepository.Update(book);
             if (result == null)
-                return Ok(new ResponseHelper(0, new object(), new ErrorDef((int)EnumHelper.ErrorEnums.NoRecordFound, "Book Add Failed", "Please Again Later")));
+                return Ok(new ResponseHelper(0, new object(), new ErrorDef((int)EnumHelper.ErrorEnums.NoRecordFound, "Book Update Failed", "Please Again Later")));
             return Ok(new ResponseHelper(1, result, new ErrorDef()));
         }
         [HttpGet("delete/{id}")]
@@ -93,7 +82,17 @@ namespace BOOKLIB_API.Controllers
             var checkout = BorrowerModelFactory.GetBorrowerModel(model);
             var result = _borrowerRepository.Insert(checkout);
             if (result == null)
-                return Ok(new ResponseHelper(0, new object(), new ErrorDef((int)EnumHelper.ErrorEnums.NoRecordFound, "Book Add Failed", "Please Again Later")));
+                return Ok(new ResponseHelper(0, new object(), new ErrorDef((int)EnumHelper.ErrorEnums.NoRecordFound, "Book Borrower Failed", "Please Again Later")));
+            return Ok(new ResponseHelper(1, result, new ErrorDef()));
+        }
+        [HttpPost("return")]
+        [Authorize]
+        public async Task<IActionResult> ReturnBook([FromBody] ReturnModel model)
+        {
+            var returnRecord = ReturnModelFactory.GetReturnModel(model);
+            var result = _returnRecordRepository.Insert(returnRecord);
+            if (result == null)
+                return Ok(new ResponseHelper(0, new object(), new ErrorDef((int)EnumHelper.ErrorEnums.NoRecordFound, "Book Return Failed", "Please Again Later")));
             return Ok(new ResponseHelper(1, result, new ErrorDef()));
         }
     }
