@@ -2,13 +2,16 @@
 using BOOKLIB_API.Helpers;
 using BOOKLIB_API.Models;
 using DataAccessLayer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,13 +24,15 @@ namespace BOOKLIB_API.Repository
         private readonly SignInManager<User> _signInManager;
         private readonly IConfiguration _configuration;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserRepository(UserManager<User> userManager,SignInManager<User> signInManager,IConfiguration configuration,RoleManager<IdentityRole> roleManager)
+        public UserRepository(UserManager<User> userManager,SignInManager<User> signInManager,IConfiguration configuration,RoleManager<IdentityRole> roleManager,IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
             _roleManager = roleManager;
+            _httpContextAccessor = httpContextAccessor; 
         }
         public async Task<IdentityResult> AddRoleAsync(RoleModel model)
         {
@@ -107,7 +112,18 @@ namespace BOOKLIB_API.Repository
         }   
         public async void SignOut()
         {
+            var authorizationHeader = _httpContextAccessor
+            .HttpContext.Request.Headers["authorization"];
             await _signInManager.SignOutAsync();
+            var jwt = authorizationHeader == StringValues.Empty
+            ? string.Empty
+            : authorizationHeader.Single().Split(" ").Last();
+            if (!String.IsNullOrEmpty(_httpContextAccessor.HttpContext.Request.Cookies["UserId"]) ||
+                !String.IsNullOrEmpty(_httpContextAccessor.HttpContext.Request.Cookies["UserName"]))
+            {
+                CommonHelper.RemoveCookie("UserId", _httpContextAccessor.HttpContext.Response);
+                CommonHelper.RemoveCookie("UserName", _httpContextAccessor.HttpContext.Response);
+            }
         }
     }
 }

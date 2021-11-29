@@ -9,6 +9,8 @@ namespace BOOKLIB_API.Helpers
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IBookRepository, BookRepository>();
+            services.AddScoped<IBorrowerRepository, BorrowerRepository>();
+            services.AddScoped<IReturnRecordRepository, ReturnRecordRepository>();
         }
     }
 }
