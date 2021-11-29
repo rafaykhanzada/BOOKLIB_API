@@ -104,6 +104,10 @@ namespace BOOKLIB_API.Repository
             user.UserType = Type;
 
             return user;
+        }   
+        public async void SignOut()
+        {
+            await _signInManager.SignOutAsync();
         }
     }
 }

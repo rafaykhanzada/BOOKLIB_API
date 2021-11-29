@@ -13,5 +13,6 @@ namespace BOOKLIB_API.Repository
         public Task<IdentityResult> CreateRoleAsync();
         public Task<IdentityResult> AddRoleAsync(RoleModel model);
         public Task<User> FindByIdAsync(String Id);
+        public void SignOut();
     }
 }

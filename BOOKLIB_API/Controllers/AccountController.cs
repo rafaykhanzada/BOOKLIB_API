@@ -46,5 +46,12 @@ namespace BOOKLIB_API.Controllers
             return Ok(new ResponseHelper(0, new object(), new ErrorDef((int)EnumHelper.ErrorEnums.NoRecordFound, "User role not create", "Please use valid code")));
 
         }
+        [HttpPost("signout")]
+        [AllowAnonymous]
+        public IActionResult SignOut()
+        {
+            _userRepository.SignOut();
+            return Ok(new ResponseHelper(1, true, new ErrorDef()));
+        }
     }
 }
